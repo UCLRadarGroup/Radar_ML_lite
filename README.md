@@ -38,9 +38,11 @@ independent captures.
 
 ## Download and quick start
 
-Obtain **`recorded_dataset.zip` from the hackathon organizers**. A public compact
-download link has not yet been added here. The full source archive is available
-separately from the [RadarML dataset record](https://doi.org/10.5522/04/30752767.v1);
+Obtain **`recorded_dataset.zip` from here: 
+https://rdr.ucl.ac.uk/articles/dataset/Radar_ML_-_Lite/33977674
+
+
+The full source archive is available separately from the [RadarML dataset record](https://doi.org/10.5522/04/30752767.v1);
 participants using the compact release do not need to download it.
 
 Extract the compact ZIP and open a terminal inside its `recorded_dataset` folder.
