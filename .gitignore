@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+*.pyc
+data/
+organizer_private/
+**/answer_key.csv
+*.npy
+*.zip
+*.partial*

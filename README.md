@@ -1,7 +1,7 @@
 # RadarML Lite
 
 RadarML contains radar waveforms recorded over the air using UCL's ARESTOR
-RFSoC platform. This branch supports a reduced, single-receiver dataset for
+RFSoC platform. This repository supports a reduced, single-receiver dataset for
 learning and comparing radar modulation classifiers. Configurations vary in
 modulation, pulse duration, bandwidth and centre frequency.
 
@@ -38,14 +38,24 @@ independent captures.
 
 ## Download and quick start
 
-Obtain **`recorded_dataset.zip` from here: 
-https://rdr.ucl.ac.uk/articles/dataset/Radar_ML_-_Lite/33977674
+At the start of the hackathon:
 
+1. Download **`recorded_dataset.zip`** from the
+   [UCL Radar ML - Lite dataset page](https://rdr.ucl.ac.uk/articles/dataset/Radar_ML_-_Lite/33977674).
+2. Download `split_manifest.csv` and `split_manifest.json` separately from that
+   page. If they are not yet publicly visible, use the repository copies:
+   [CSV](hackathon/split_manifest.csv) and [JSON](hackathon/split_manifest.json).
+   On GitHub, use **Download raw file** to save the actual file, not an HTML page.
+3. Extract the ZIP and put both manifest files inside the extracted
+   `recorded_dataset` folder, alongside the `.npy` files. No re-zipping is needed;
+   the original ZIP and its checksum remain unchanged.
 
-The full source archive is available separately from the [RadarML dataset record](https://doi.org/10.5522/04/30752767.v1);
-participants using the compact release do not need to download it.
+**Do not download, inspect or use `blind_test_participants.zip` until the
+organizers announce final evaluation after model freeze**, even if it is visible
+on the same download page. Train and tune only on the supplied 80/20 split.
+The original full RadarML archive is not needed.
 
-Extract the compact ZIP and open a terminal inside its `recorded_dataset` folder.
+Open a terminal inside the extracted `recorded_dataset` folder.
 With Python 3.9 or newer installed:
 
 ```bash
@@ -54,15 +64,15 @@ python compact_dataset.py expand --input . --output ../expanded
 ```
 
 The expansion scripts are **included in the compact ZIP**. Use those bundled
-scripts together; the repository's original preprocessing scripts expect a
+scripts together; the upstream original preprocessing scripts expect a
 different input format. Full expansion requires **57.66 GB of additional space**.
 See the [guide](hackathon/README.md) for environment setup, a small first check
 and loading examples before expanding everything.
 
-To clone this branch:
+To clone this repository:
 
 ```bash
-git clone --branch radar-ml-lite --single-branch https://github.com/UCLRadarGroup/Radar_ML.git
+git clone https://github.com/UCLRadarGroup/Radar_ML_lite.git
 ```
 
 ## Blind final evaluation
@@ -73,8 +83,11 @@ pulses across 660 configurations**, each at **13 requested SNRs from +30 to
 every SNR. Its participant ZIP is approximately **11.55 GB**; allow about
 **23.1 GB** to keep both the ZIP and extracted files.
 
-The recommended release is after teams train/validate and freeze their models.
-Organizers will provide distribution and submission arrangements; the test
+The [seven-day event timetable](hackathon/EVENT_RULES.md) uses relative days:
+kick-off on Day 0 at 09:00, model freeze on Day 4 at 17:00, blind-test release
+on Day 5 at 09:00, and final submissions on Day 6 at 17:00 (Europe/London time).
+The separate blind-test record stays private until release. Organizers will
+announce the submission destination; the test
 signals are not hosted in Git. The answer key and source mappings remain private.
 See the [blind test guide](hackathon/README.md#7-final-evaluation-and-submission)
 for loading, submission format, verification checksum and preprocessing caveats,
@@ -85,17 +98,24 @@ dataset.
 
 | Path | Purpose |
 | --- | --- |
-| [hackathon/README.md](hackathon/README.md) | Participant walkthrough and event protocol status |
-| [hackathon/](hackathon/) | Reduced-data preparation, plotting and shard-release utilities |
-| [make_dataset.py](make_dataset.py) | Original multi-channel SNR preprocessing |
-| [plot_raw_data.py](plot_raw_data.py), [plot_dataset.py](plot_dataset.py) | Original dataset visualizations |
-| [VGG13-Waveform-Classification-Example.ipynb](VGG13-Waveform-Classification-Example.ipynb) | Original spectrogram/classifier example |
-| [MultiChannelRESM.yml](MultiChannelRESM.yml), [requirements.txt](requirements.txt) | Original example environment and dependencies |
+| [hackathon/README.md](hackathon/README.md) | Participant walkthrough and event protocol |
+| [hackathon/EVENT_RULES.md](hackathon/EVENT_RULES.md) | Relative-day timetable, data/model rules, submission limits and tie-breaking |
+| [hackathon/split_manifest.csv](hackathon/split_manifest.csv) | Fixed training/validation pulse assignments |
+| [hackathon/split_manifest.json](hackathon/split_manifest.json) | Split algorithm, indexing and CSV checksum |
+| [hackathon/participant_loader.py](hackathon/participant_loader.py) | Loader for anonymous blind-test shards |
+| [hackathon/score_submission.py](hackathon/score_submission.py) | Organizer scoring utility; no answer key is included |
+| [docs/participant_notes.md](docs/participant_notes.md) | Updated slide-ready background notes, I/Q theory and current event workflow |
+| [hackathon/compact_dataset.py](hackathon/compact_dataset.py) | Build compact recordings or expand them into requested SNR conditions |
+| [hackathon/make_dataset_hackathon.py](hackathon/make_dataset_hackathon.py) | Shared noise preprocessing and original-array preparation |
+| [hackathon/create_split_manifest.py](hackathon/create_split_manifest.py) | Reproducible split-generation utility; participants use the published manifest |
+| [hackathon/plot_modulations.py](hackathon/plot_modulations.py) | Plot original or expanded recordings; compact inspection is covered in the guide |
+| [tests/](tests/) | Compact conversion, preprocessing and scoring checks |
 
-The original notebook and scripts are reference material; their data layout and
-split handling are not the compact hackathon workflow. NumPy is sufficient for
-compact loading and expansion. Install libraries for your method as needed;
-the original environment includes platform-specific dependencies.
+The [original RadarML repository](https://github.com/UCLRadarGroup/Radar_ML)
+contains the original multi-channel scripts and example notebook. Their data
+layout and split handling differ from this compact hackathon workflow. Use the
+expansion scripts bundled in the compact ZIP. NumPy is sufficient for loading
+and expansion; install libraries for your method as needed.
 
 ## Attribution and licensing
 
