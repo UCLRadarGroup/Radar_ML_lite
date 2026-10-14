@@ -19,19 +19,20 @@ Compare tracks using identical split assignments and evaluation settings.
 
 Follow the [seven-day timetable and event rules](EVENT_RULES.md). Day 0 is the
 opening day; Day 6 is the final day. All times are Europe/London local time.
-The organizers announce the calendar start date and submission destination.
+Final predictions and reports are due **Saturday 17 October 2026, 12:00 noon BST (11:00 UTC)**.
+Upload prediction CSVs to the [Kaggle competition](https://www.kaggle.com/competitions/radar-ml-hackathon/).
 
 | Milestone | Deadline |
 | --- | --- |
 | Kick-off and training begins | Day 0, 09:00 |
 | Model and preprocessing freeze | Day 4, 17:00 |
 | Blind-test release | Day 5, 09:00 |
-| Final predictions and report due | Day 6, 17:00 |
-| Scoring and wrap-up | Day 6, after 17:00 |
+| Final predictions and report due | Saturday 17 October 2026, 12:00 noon BST (11:00 UTC) |
+| Scoring and wrap-up | After the final submission deadline |
 
 Train from scratch on supplied training pulses only; use validation for tuning.
 External training data and pretrained weights are excluded. Each team may submit
-one final entry per track, with no blind-score feedback before submissions close.
+one final entry per track. Do not use assessment feedback to tune the frozen pipeline.
 See the event rules for replacement submissions, permitted tools and tie-breaking.
 
 | Stage | What you receive or use | What you do |
@@ -39,7 +40,7 @@ See the event rules for replacement submissions, permitted tools and tie-breakin
 | Start | `recorded_dataset.zip`, `split_manifest.csv` and `split_manifest.json` | Extract the compact data, place the manifest files beside the recordings, set up Python and inspect a pulse. |
 | Development | Published `train` and `validation` assignments | Choose a track, train using the 80 training pulses per configuration, and tune using the 20 validation pulses. Keep every augmented version in its source pulse's split. |
 | Model freeze | Your selected model and preprocessing | Save the model, configuration, random seeds and code revision. Record validation results before receiving the blind test. |
-| Blind evaluation | Organizer-issued `blind_test_participants.zip` | Extract into a separate folder, verify the checksum, load the anonymous test signals and run the frozen pipeline. Do not retrain or tune on test signals. |
+| Blind evaluation | [`blind_test_participants.zip` from the UCL blind-test release](https://rdr.ucl.ac.uk/articles/dataset/RadarML_-_Lite_-_Blind_Test_Release/34065705?file=69638289) | Extract into a separate folder, verify the checksum, load the anonymous test signals and run the frozen pipeline. Do not retrain or tune on test signals. |
 | Submission | Completed template and method materials | Submit predictions and the supporting items below. The organizer scores predictions using the private answer key. |
 
 The main dataset's 80/20 manifest contains **no test split**. The blind test is a
@@ -48,7 +49,7 @@ from the supplied training/validation rows or run the older 60/20/20 workflow.
 
 ### Final submission checklist
 
-- Save `predictions.csv` with exactly `sample_id,predicted_label` as the header,
+- Save `predictions.csv` with exactly `sample_id,label` as the header,
   using every ID in the blind-test template once and only the seven permitted
   labels. Keep a separate prediction file for each track entered.
 - Include the saved model, preprocessing settings, code revision or code archive,
@@ -63,9 +64,8 @@ from the supplied training/validation rows or run the older 60/20/20 workflow.
 
 There is no participant answer key for the blind evaluation. Do not attempt to
 recover labels from the original public archive. Deadlines, submission limits
-and ranking rules are in [EVENT_RULES.md](EVENT_RULES.md). The submission
-destination will be announced at kick-off; the standard workflow is participant
-inference followed by organizer scoring of predictions.
+and ranking rules are in [EVENT_RULES.md](EVENT_RULES.md). Prediction CSVs are submitted to the [Kaggle competition](https://www.kaggle.com/competitions/radar-ml-hackathon/);
+supporting model/report materials go to the organizers through their designated channel.
 
 ## Release and event status
 
@@ -306,11 +306,11 @@ Requested SNR therefore need not equal the achieved active-pulse SNR.
 
 ### Blind test contents
 
-The blind test dataset has been created and verified. It is supplied separately
-as `blind_test_participants.zip`; the large signal files are not stored in this
-Git repository. Obtain it from the organizers when final evaluation opens.
+The blind test is now available from the [UCL RadarML Lite Blind Test Release](https://rdr.ucl.ac.uk/articles/dataset/RadarML_-_Lite_-_Blind_Test_Release/34065705?file=69638289).
+Download `blind_test_participants.zip` from that record after freezing your model
+and preprocessing. The large signal files are not stored in this Git repository.
 
-| Property | Blind test v1 |
+| Property | Released blind test |
 | --- | --- |
 | Waveform configurations | 660 |
 | Held-out source pulses per configuration | 20 |
@@ -333,11 +333,9 @@ a compatible loader, a blank submission template, checksums and aggregate
 preprocessing diagnostics. Per-example class labels, SNRs, original source
 identities and the answer key remain private with the organizers.
 
-ZIP SHA256:
-
-```text
-7d13639eea4aa936ad43f815d97b9d0a60cbaaf8fade6a472306c75a70223eab
-```
+The UCL record reports archive MD5 `8307e8afebbf00ce24464672187e571d`.
+Check the downloaded ZIP against this value and verify extracted files using
+the bundled `checksums.json`.
 
 ### When participants receive it
 
@@ -351,40 +349,20 @@ The release sequence follows the [event timetable](EVENT_RULES.md):
    and submit predictions for organizer scoring.
 
 Freeze models by **Day 4, 17:00**. The blind test is released on **Day 5, 09:00**;
-final submissions close on **Day 6, 17:00**. Providing test signals at the start
+final submissions close on **Saturday 17 October 2026, 12:00 noon BST (11:00 UTC)**. Providing test signals at the start
 would allow inspection to influence development and weaken the independence of
-final evaluation. The organizer keeps labels private and scores predictions only
-after the submission deadline.
+final evaluation. Labels remain private; upload predictions to Kaggle for assessment.
+Do not use assessment feedback to change the frozen pipeline.
 
 ### Organizer publication checklist
 
-1. Add the split CSV and JSON as separate downloads beside the existing training
-   ZIP on the UCL record. Publish the updated record/version as required by the
-   repository; saving files in the account editor alone does not confirm public
-   availability. Use the public article URL in participant instructions, not
-   an `/account/articles/` editing URL.
-2. Check the public page while signed out: confirm that the training ZIP and both
-   split files can be downloaded and that the downloaded CSV matches the SHA256
-   recorded in `split_manifest.json`. Keep the existing training ZIP unchanged.
-3. Withhold the blind-test download until model freeze. If it is already public,
-   restrict/remove access where the repository permits, or contact repository
-   support. Check earlier public versions and direct links too; hiding a link
-   does not revoke prior downloads or establish that nobody accessed the data.
-4. Follow the Day 4 model freeze, Day 5 test release and Day 6 submission
-   deadlines in [EVENT_RULES.md](EVENT_RULES.md). Ask teams to disclose any early test
-   access. If strict pre-release secrecy is required after public exposure,
-   prepare a replacement held-out test release.
-5. Keep the answer key, original source mappings and private build files out of
-   the public dataset record and Git repository. Score submissions privately.
+1. Verify the [released blind-test archive](https://rdr.ucl.ac.uk/articles/dataset/RadarML_-_Lite_-_Blind_Test_Release/34065705?file=69638289) is publicly downloadable.
+2. Keep answer keys, original source mappings and private build files out of public downloads and this repository.
+3. Configure the [Kaggle competition](https://www.kaggle.com/competitions/radar-ml-hackathon/) to accept `sample_id,label` and use the answer key corresponding to this archive.
+4. Set the Kaggle deadline to **Saturday 17 October 2026, 12:00 noon BST (11:00 UTC)**; verify the assessment metric and submission settings.
+5. Ask teams to disclose early test access and changes after model freeze.
 
-The organizer has moved the blind-test ZIP to a separate record that is not yet
-public. Keep that record private until Day 5. Verify download permissions and
-the public training/split-file downloads before Day 0; earlier public exposure
-should still be handled as described above.
-
-Do not use the original public archive to recover held-out labels. Anonymization
-does not make the underlying public recordings secret. Private test-selection
-details and answer keys are not published in this repository.
+Do not recover held-out labels by matching signals to the public original archive.
 
 ### Matching preprocessing and clipping
 
@@ -393,17 +371,9 @@ method and int16 clipping rules as the main dataset, with independent noise seed
 An int16 component is limited to −32,768 through +32,767. At low requested SNR,
 added noise can exceed these limits and is capped, changing the noise distribution.
 
-| Requested SNR | Fraction of I/Q component values clipped |
-| --- | ---: |
-| −20 dB | 0.000068% |
-| −25 dB | 0.239% |
-| −30 dB | 5.38% |
-
-No values clipped at −15 dB or above in this release. These are aggregate
-component-value rates, not percentages of pulses. At +30 dB, 4,400 of 13,200
-examples had unattainable targets and received no added noise. Report results
-against **requested SNR**, not guaranteed achieved active-pulse SNR. The package's
-`preprocessing_diagnostics.json` contains the full aggregate counts.
+Use the released archive's `preprocessing_diagnostics.json` for clipping and
+unattainable-target counts. Report **requested SNR**, not guaranteed achieved
+active-pulse SNR.
 
 ### Load and submit
 
@@ -423,13 +393,21 @@ preserve every `sample_id`, and predict
 exactly one permitted label for each test example, using columns:
 
 ```csv
-sample_id,predicted_label
+sample_id,label
 ```
 
-Save the completed file as `predictions.csv` and return it to the organizers.
+### Upload predictions to Kaggle
+
+1. Sign in to the [Radar ML Hackathon competition](https://www.kaggle.com/competitions/radar-ml-hackathon/), join it and accept its rules if prompted.
+2. Run your frozen pipeline on every blind-test sample and save `predictions.csv` with exactly `sample_id,label` as the header. Use no spaces around the comma and omit any pandas index column.
+3. If the archive template uses `predicted_label`, rename that column to `label` for the Kaggle upload. Preserve every sample ID and include each exactly once. Allowed labels are `barker`, `cw`, `fmcw`, `fsk`, `hyp`, `nlfm`, `quad`.
+4. Use the competition's submission/upload control to upload `predictions.csv`. Identify your team and track in the description. Upload predictions, not the signal archive or answer key.
+5. Check that Kaggle accepts the submission and completes assessment. Correct any format or ID errors before **Saturday 17 October 2026, 12:00 noon BST (11:00 UTC)**, using the same frozen pipeline.
+
+Save the completed file as `predictions.csv` and submit it to the Kaggle site.
 Missing, duplicate or extra IDs, empty predictions and unknown labels are rejected.
-The organizers use a private answer key to compute balanced accuracy at each SNR
-and average across all 13 settings. The answer key is not distributed to teams.
+The challenge is scored using balanced accuracy at each SNR, averaged across
+all 13 requested SNR settings. The answer key is not distributed to teams.
 Follow the [submission limits and frozen-pipeline requirements](EVENT_RULES.md#submission-limits-and-required-files).
 
 Provide reproduction instructions, code/settings, model, track, training subset
