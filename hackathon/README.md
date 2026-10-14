@@ -20,7 +20,7 @@ Compare tracks using identical split assignments and evaluation settings.
 Follow the [seven-day timetable and event rules](EVENT_RULES.md). Day 0 is the
 opening day; Day 6 is the final day. All times are Europe/London local time.
 Final predictions and reports are due **Saturday 17 October 2026, 12:00 noon BST (11:00 UTC)**.
-Upload prediction CSVs to the [Kaggle competition](https://www.kaggle.com/competitions/radar-ml-hackathon/).
+Upload prediction CSVs to the [Kaggle competition](https://www.kaggle.com/t/8c86ae869036416784b3f5521d5f6717).
 
 | Milestone | Deadline |
 | --- | --- |
@@ -64,7 +64,7 @@ from the supplied training/validation rows or run the older 60/20/20 workflow.
 
 There is no participant answer key for the blind evaluation. Do not attempt to
 recover labels from the original public archive. Deadlines, submission limits
-and ranking rules are in [EVENT_RULES.md](EVENT_RULES.md). Prediction CSVs are submitted to the [Kaggle competition](https://www.kaggle.com/competitions/radar-ml-hackathon/);
+and ranking rules are in [EVENT_RULES.md](EVENT_RULES.md). Prediction CSVs are submitted to the [Kaggle competition](https://www.kaggle.com/t/8c86ae869036416784b3f5521d5f6717);
 supporting model/report materials go to the organizers through their designated channel.
 
 ## Release and event status
@@ -358,7 +358,7 @@ Do not use assessment feedback to change the frozen pipeline.
 
 1. Verify the [released blind-test archive](https://rdr.ucl.ac.uk/articles/dataset/RadarML_-_Lite_-_Blind_Test_Release/34065705?file=69638289) is publicly downloadable.
 2. Keep answer keys, original source mappings and private build files out of public downloads and this repository.
-3. Configure the [Kaggle competition](https://www.kaggle.com/competitions/radar-ml-hackathon/) to accept `sample_id,label` and use the answer key corresponding to this archive.
+3. Configure the [Kaggle competition](https://www.kaggle.com/t/8c86ae869036416784b3f5521d5f6717) to accept `sample_id,label` and use the answer key corresponding to this archive.
 4. Set the Kaggle deadline to **Saturday 17 October 2026, 12:00 noon BST (11:00 UTC)**; verify the assessment metric and submission settings.
 5. Ask teams to disclose early test access and changes after model freeze.
 
@@ -398,7 +398,7 @@ sample_id,label
 
 ### Upload predictions to Kaggle
 
-1. Sign in to the [Radar ML Hackathon competition](https://www.kaggle.com/competitions/radar-ml-hackathon/), join it and accept its rules if prompted.
+1. Sign in to the [Radar ML Hackathon competition](https://www.kaggle.com/t/8c86ae869036416784b3f5521d5f6717), join it and accept its rules if prompted.
 2. Run your frozen pipeline on every blind-test sample and save `predictions.csv` with exactly `sample_id,label` as the header. Use no spaces around the comma and omit any pandas index column.
 3. If the archive template uses `predicted_label`, rename that column to `label` for the Kaggle upload. Preserve every sample ID and include each exactly once. Allowed labels are `barker`, `cw`, `fmcw`, `fsk`, `hyp`, `nlfm`, `quad`.
 4. Use the competition's submission/upload control to upload `predictions.csv`. Identify your team and track in the description. Upload predictions, not the signal archive or answer key.
