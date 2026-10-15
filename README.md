@@ -77,22 +77,45 @@ git clone https://github.com/UCLRadarGroup/Radar_ML_lite.git
 
 ## Blind final evaluation
 
-A separate blind test has been created and verified: **13,200 held-out source
-pulses across 660 configurations**, each at **13 requested SNRs from +30 to
-−30 dB**, giving **171,600 examples**. All seven modulation classes appear at
-every SNR. Its participant ZIP is approximately **11.55 GB**; allow about
-**23.1 GB** to keep both the ZIP and extracted files.
+The blind-test dataset is available from the [UCL RadarML Lite Blind Test Release](https://rdr.ucl.ac.uk/articles/dataset/RadarML_-_Lite_-_Blind_Test_Release/34065705?file=69638289). Download `blind_test_participants.zip` and allow approximately **23.1 GB** for the ZIP and extracted files.
 
-The [seven-day event timetable](hackathon/EVENT_RULES.md) uses relative days:
-kick-off on Day 0 at 09:00, model freeze on Day 4 at 17:00, blind-test release
-on Day 5 at 09:00, and final submissions on Day 6 at 17:00 (Europe/London time).
-The separate blind-test record stays private until release. Organizers will
-announce the submission destination; the test
-signals are not hosted in Git. The answer key and source mappings remain private.
-See the [blind test guide](hackathon/README.md#7-final-evaluation-and-submission)
-for loading, submission format, verification checksum and preprocessing caveats,
-including **5.38% I/Q-value clipping at −30 dB** under the same rules as the main
-dataset.
+The dataset contains **171,600 examples**, generated from **13,200 held-out source pulses across 660 waveform configurations**. Each source pulse appears at 13 requested SNR settings, from +30 to −30 dB in 5 dB steps. All seven modulation classes appear at every SNR. Evaluation measures unseen pulses from known configurations, rather than unseen configurations or hardware.
+
+Freeze your model and preprocessing before accessing the blind-test signals. Run inference using the frozen pipeline; do not retrain, tune or use assessment feedback to change it. Labels, per-example SNRs, source mappings and the answer key remain private.
+
+### Teams and track submissions
+
+Submit predictions through the [Kaggle competition](https://www.kaggle.com/t/8c86ae869036416784b3f5521d5f6717), using separate team names for the two tracks:
+
+| Kaggle team name | Track |
+| --- | --- |
+| `name_time` | Track A: time-domain-only classification |
+| `name_freq` | Track B: time-frequency methods |
+
+Replace `name` with the same group name for both teams. For example, `RadarFox_time` and `RadarFox_freq`. Upload each track’s results through its corresponding team. Identify both team names in your supporting report.
+
+### Prediction format
+
+Save predictions as `predictions.csv` with exactly this header:
+
+```csv
+sample_id,label
+```
+
+Include every blind-test sample ID exactly once and use only `barker`, `cw`, `fmcw`, `fsk`, `hyp`, `nlfm` or `quad`. If the supplied template uses `predicted_label`, rename that column to `label`. Do not include an extra index column.
+
+Missing, duplicate or extra IDs, empty predictions and unknown labels are rejected.
+
+Each group may submit **one final entry per track**. Check that Kaggle accepts and assesses the file before the deadline. Format corrections must use the same frozen pipeline. Provide supporting models, reports and reproduction materials through the organizer-designated channel.
+
+### Deadline and scoring
+
+**Final predictions and reports are due Saturday 17 October 2026 at 12 noon BST (11:00 UTC).**
+
+The primary score is balanced accuracy at each requested SNR, averaged across all 13 settings. Tracks are ranked separately.
+
+See the [hackathon guide](hackathon/README.md) for loading instructions and the [event rules](hackathon/EVENT_RULES.md) for submission and ranking requirements.
+
 
 ## Repository contents
 
